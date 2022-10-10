@@ -81,12 +81,12 @@ paginate = 5
       logoHomeLink = "/"
     [languages.en.menu]
       [[languages.en.menu.main]]
-        identifier = "home"
+        identifier = "root"
         name = "/root"
         url = "/"
 		weight = 1
       [[languages.en.menu.main]]
-        identifier = "about"
+        identifier = "readme"
         name = "README.md"
-        url = "/about"
+        url = "/readme"
 		weight = 2
