@@ -6,7 +6,6 @@ description = "First commit of the repository, nothing to see here"
 showFullContent = false
 readingTime = false
 hideComments = false
-
 +++
 
 Hello World!
