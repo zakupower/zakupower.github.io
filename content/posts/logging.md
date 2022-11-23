@@ -49,6 +49,10 @@ We were being "DDOS-ed" by our own Frontend application, and this filled the log
 
 The solution for this was fixing the Frontend Retry mechanism, and also adding a simple (and fast) DB call which would check for already existing resource on the specific endpoint and before queueing the resource for processing throwing a 422 UNPROCESSABLE ENTITY error to the frontend so it can delete it from the local storage.
 
+## How it ended
+
+TODO("Write this!")
+
 ## Lessons learned
 
 TODO("Write this!")
