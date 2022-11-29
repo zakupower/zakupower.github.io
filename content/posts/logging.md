@@ -49,13 +49,13 @@ We were being "DDOS-ed" by our own Frontend application, and this filled the log
 
 The solution for this was fixing the Frontend Retry mechanism, and also adding a simple (and fast) DB call which would check for already existing resource on the specific endpoint and before queueing the resource for processing throwing a 422 UNPROCESSABLE ENTITY error to the frontend so it can delete it from the local storage.
 
-## How it ended
-
-TODO("Write this!")
-
 ## Lessons learned
 
-TODO("Write this!")
+The biggest reason for our log issue, turned out to be unrelated to our logging, but in the process we learned, to be way more careful with what we log. 
+
+1. **Always do a root cause analysis of the most frequent log lines in your application, even if they seem normal.**
+2. **After a week or so of running your application in PROD, look at the logs your application, and eliminate unnecessary error and info logs.**
+3. **Write meaningful error log messages instead of logging huge exception stack traces.**
 
 ## Useful Articles
 
