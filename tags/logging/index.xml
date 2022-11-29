@@ -23,10 +23,13 @@
 &lt;p>Our most used endpoint, the one we were logging the requests for was an async operation, that validated the input without any DB hits and placed the request in a queue to be processed and return 200 OK, so the user doesn&amp;rsquo;t have to wait on a very expensive chain of operations that would happen after this endpoint is called. The Frontend application had a retry mechanism (because the information for this endpoint was very important to never be lost) that would call this endpoint. For some reason the retry mechanism was not working properly and was retrying the same resource 1000s of times per day. So except the traffic we were getting from users, we were also getting these retry requests based on local storage in the frontend. When we did the analysis it turned out in the span of 1 week, we were being sent 1000s of resources 1000s of times a day which were all failing with Unique Constraint Violation.&lt;/p>
 &lt;p>We were being &amp;ldquo;DDOS-ed&amp;rdquo; by our own Frontend application, and this filled the logs to the brim and also slowed down the Backend application significantly (an issue we were also investigating in parallel to the logs).&lt;/p>
 &lt;p>The solution for this was fixing the Frontend Retry mechanism, and also adding a simple (and fast) DB call which would check for already existing resource on the specific endpoint and before queueing the resource for processing throwing a 422 UNPROCESSABLE ENTITY error to the frontend so it can delete it from the local storage.&lt;/p>
-&lt;h2 id="how-it-ended">How it ended&lt;/h2>
-&lt;p>TODO(&amp;ldquo;Write this!&amp;rdquo;)&lt;/p>
 &lt;h2 id="lessons-learned">Lessons learned&lt;/h2>
-&lt;p>TODO(&amp;ldquo;Write this!&amp;rdquo;)&lt;/p>
+&lt;p>The biggest reason for our log issue, turned out to be unrelated to our logging, but in the process we learned, to be way more careful with what we log.&lt;/p>
+&lt;ol>
+&lt;li>&lt;strong>Always do a root cause analysis of the most frequent log lines in your application, even if they seem normal.&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>After a week or so of running your application in PROD, look at the logs your application, and eliminate unnecessary error and info logs.&lt;/strong>&lt;/li>
+&lt;li>&lt;strong>Write meaningful error log messages instead of logging huge exception stack traces.&lt;/strong>&lt;/li>
+&lt;/ol>
 &lt;h2 id="useful-articles">Useful Articles&lt;/h2>
 &lt;p>&lt;a href="https://www.freecodecamp.org/news/how-to-use-logs-effectively-in-your-code">To Log, or Not to Log - An Alternative Strategy to Make Loggers your Friends (by Stanley Nguyen)&lt;/a>&lt;/p>
 &lt;p>&lt;a href="https://blog.codinghorror.com/the-problem-with-logging/">The Problem With Logging (by Jeff Atwood)&lt;/a>&lt;/p>
